@@ -35,17 +35,15 @@
 									method="post">
 									<input type="hidden" name="deleteId"
 										th:value="${entry.value.itemId}">
-									<div id="animation_box">
-										<div id="cart_item_box">
-											<p th:text="'商品名：' + ${entry.value.name}"></p>
-											<p th:text="'個数：' + ${orderList.num}"></p>
-											<p
-												th:text="'単価：' + ${#numbers.formatInteger(entry.value.price,3,'COMMA')} +'円'"></p>
-											<p
-												th:text="'小計：' + ${#numbers.formatInteger(orderList.num * entry.value.price,3,'COMMA')} +'円'">
-											</p>
-											<button type="submit" name="deleteItem">カートから除外</button>
-										</div>
+									<div id="cart_item_box">
+										<p th:text="'商品名：' + ${entry.value.name}"></p>
+										<p th:text="'個数：' + ${orderList.num}"></p>
+										<p
+											th:text="'単価：' + ${#numbers.formatInteger(entry.value.price,3,'COMMA')} +'円'"></p>
+										<p
+											th:text="'小計：' + ${#numbers.formatInteger(orderList.num * entry.value.price,3,'COMMA')} +'円'">
+										</p>
+										<button type="submit" name="deleteItem">カートから除外</button>
 									</div>
 								</form>
 							</th:object>

@@ -37,6 +37,11 @@ public class SessionService {
   public void sessionUpdate(ListForm listForm) {
     int formId = listForm.getItemId();
     int formNum = listForm.getNum();
+    
+    if (formNum <= 0) {
+      // 個数0以下は何もしない
+      return;
+    }
 
     // SELECTを使用して対象リストのテーブルの情報をすべて取得する
     List<Order> list = jdbcTemplate.query("SELECT * FROM session_items WHERE item_id = ?",
