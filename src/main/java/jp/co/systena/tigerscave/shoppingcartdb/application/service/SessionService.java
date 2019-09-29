@@ -16,9 +16,9 @@ public class SessionService {
   JdbcTemplate jdbcTemplate;
 
   /**
-   * データベースからアイテムデータ一覧を取得する
+   * セッション管理DBの全情報取得しカートに保存
    *
-   * @return
+   * @param cart
    */
   public void setOrderList(Cart cart) {
 
@@ -29,23 +29,29 @@ public class SessionService {
     cart.setOrderList(list);
   }
 
+  /**
+   * セッション管理DBの更新orインサートを行う
+   *
+   * @param listForm
+   */
   public void sessionUpdate(ListForm listForm) {
-    int listId = listForm.getItemId();
-    int listNum = listForm.getNum();
+    int formId = listForm.getItemId();
+    int formNum = listForm.getNum();
 
     // SELECTを使用して対象リストのテーブルの情報をすべて取得する
     List<Order> list = jdbcTemplate.query("SELECT * FROM session_items WHERE item_id = ?",
-        new Object[] {listId}, new BeanPropertyRowMapper<Order>(Order.class));
+        new Object[] {formId}, new BeanPropertyRowMapper<Order>(Order.class));
 
     if (!list.isEmpty()) {
+      //リストが空でない場合はDBの更新処理を行う
       for (Order order : list) {
-        // データベース更新
-        // プラスする
-        update(listId, listNum + order.getNum());
+        // DB更新
+        // 個数は今回入力分＋すでにDB登録されている分で登録する
+        update(formId, formNum + order.getNum());
       }
     } else {
-      // 新規入力
-      insert(listForm);
+      // DBへインサート
+      insert(formId, formNum);
     }
   }
 
@@ -59,49 +65,34 @@ public class SessionService {
    * @return
    */
   public void delete(int itemId) {
-
-
-    // 本来はここで入力チェックなど
-
-
+    //todo:途中
     // パラメータで受けとったアイテムIDのデータを削除する
     // SQL文字列中の「?」の部分に、後ろで指定した変数が埋め込まれる
     jdbcTemplate.update("DELETE FROM items WHERE item_id = ?", itemId);
   }
 
   /**
-   * 「登録」ボタン押下時の処理
+   * セッション管理DBのインサート
    *
-   * 入力されたアイテムID、名前、価格をデータベースに登録する
-   *
-   * @param form
-   * @param result
-   * @param model
-   * @return
+   * @param id
+   * @param num
    */
-  public void insert(ListForm listform) {
+  private void insert(int id, int num) {
 
     // 1行分の値をデータベースにINSERTする
-    // SQL文字列中の「?」の部分に、後ろで指定した変数が埋め込まれる
-    jdbcTemplate.update("INSERT INTO session_items VALUES( ?, ? )", listform.getItemId(),
-        listform.getNum());
+    jdbcTemplate.update("INSERT INTO session_items VALUES( ?, ? )", id, num);
 
   }
 
   /**
-   * 「更新」ボタン押下時の処理
+   * セッション管理DBの更新
    *
-   * 入力された名前と価格をアイテムIDをキーとして更新する
-   *
-   * @param listForm
-   * @param result
-   * @param model
-   * @return
+   * @param id
+   * @param num
    */
-  public void update(int id, int num) {
+  private void update(int id, int num) {
     // 1行分の値でデータベースをUPDATEする
-    // item_idをキーに名称と価格を更新する
-    // SQL文字列中の「?」の部分に、後ろで指定した変数が埋め込まれる
+    // item_idをキーに個数を更新する
     jdbcTemplate.update("UPDATE session_items SET num = ? WHERE item_id = ?", num, id);
   }
 }

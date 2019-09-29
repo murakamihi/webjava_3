@@ -20,14 +20,11 @@ import jp.co.systena.tigerscave.shoppingcartdb.application.service.SessionServic
 @Controller
 public class ListController {
 
-//  @Autowired
-//  HttpSession session; // セッション管理
+  @Autowired
+  private  ListService listService;
 
   @Autowired
-  private  ListService listService;//リスト
-
-  @Autowired
-  private  SessionService sessionService;//リスト
+  private  SessionService sessionService;
 
 
   @RequestMapping(value = "/list", method = RequestMethod.GET) // URLとのマッピング
@@ -37,13 +34,8 @@ public class ListController {
     mav.addObject("itemList", itemListMap);
 
     // カート情報設定
-    //Cart cart = (Cart) session.getAttribute("cart");
     Cart cart = new Cart();
-//    if (cart == null) {
-//      cart = new Cart();
-//    }
     sessionService.setOrderList(cart);
-    //session.setAttribute("cart", cart);
     mav.addObject("cart", cart);
 
     // リストフォームを新規設定
@@ -75,24 +67,15 @@ public class ListController {
       return mav;
     }
 
-//    Cart cart = (Cart) session.getAttribute("cart");
-//    if (cart == null) {
-//      cart = new Cart();
-//    }
-//
-//    cart.addOrder(listForm);
-//    session.setAttribute("cart", cart);
     sessionService.sessionUpdate(listForm);
 
     return new ModelAndView("redirect:/list"); // リダイレクト
   }
 
   private Map<Integer, Item> getItemListMap() {
-//    ListService listService = new ListService();
     List<Item> itemList = listService.getItemList();
 
     Map<Integer, Item> itemListMap = new HashMap<Integer, Item>();
-//    listService.delete(itemList.get(0).getItemId());
     for (Item item : itemList) {
       itemListMap.put(item.getItemId(), item);
     }
