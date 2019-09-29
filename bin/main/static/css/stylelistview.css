@@ -1,12 +1,7 @@
 @charset "UTF-8";
 
-html {
-    height: 100%;
-}
-
-body {
-    height: 100%;
-    margin: 0;
+#box {
+	display:flex;
 }
 
 #goods_box {
@@ -19,8 +14,9 @@ body {
 }
 
 #left_box {
+	margin-left: 10px;
 	float: left;
-	width:70%;
+	width: 70%;
 }
 
 #cart_box {
@@ -28,7 +24,8 @@ body {
 }
 
 #border_box {
-	border-left:  solid #000000;
+	display:table-cell;
+	border-left: solid #000000;
 }
 
 #cart_item_box {
@@ -41,6 +38,5 @@ body {
 #right_box {
 	float: right;
 	width: 350px;
-	height: 100%;
-	border-left:  solid #000000;
+	border-left: solid #000000;
 }

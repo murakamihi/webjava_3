@@ -7,43 +7,52 @@
 	th:href="@{/css/stylelistview.css}" />
 </head>
 <body>
-	<div id="left_box">
-		<h1>商品一覧</h1>
-		<div id="goods_box" th:each="entry : ${itemList}">
-			<form action="#" th:action="@{/list}" th:object="${listForm}"
-				method="post">
-				<input type="hidden" name="itemId" th:value="${entry.value.itemId}">
-				<p th:text="${entry.value.name}"></p>
-				<p th:text="'単価：' + ${entry.value.price} +'円'"></p>
-				<p>
-					個数： <input type="number" min="0" th:field="*{num}" value="0">
-				</p>
-				<button type="submit" name="addCard">カートに追加</button>
-			</form>
+	<div id="box">
+		<div id="left_box">
+			<h1>商品一覧</h1>
+			<div id="goods_box" th:each="entry : ${itemList}">
+				<form action="#" th:action="@{/list}" th:object="${listForm}"
+					method="post">
+					<input type="hidden" name="itemId" th:value="${entry.value.itemId}">
+					<p th:text="${entry.value.name}"></p>
+					<p
+						th:text="'単価：' + ${#numbers.formatInteger(entry.value.price,3,'COMMA')} +'円'"></p>
+					<p>
+						個数： <input type="number" min="0" th:field="*{num}" value="0">
+					</p>
+					<button type="submit" name="addCard">カートに追加</button>
+				</form>
+			</div>
 		</div>
-	</div>
-	<div id="right_box">
-		<div id="cart_box">
-			<h1>カート</h1>
-			<th:object th:if="!${#lists.isEmpty(cart.orderList)}">
-				<th:object th:each="orderList : ${cart.orderList}">
-					<th:object th:each="entry : ${itemList}">
-						<th:object th:if="${orderList.itemId}==${entry.value.itemId}">
-							<div id="cart_item_box">
-								<p th:text="'商品名：' + ${entry.value.name}"></p>
-								<p th:text="'個数：' + ${orderList.num}"></p>
-								<p th:text="'単価：' + ${entry.value.price} +'円'"></p>
-								<p
-									th:text="'小計：' + ${#numbers.formatInteger(orderList.num * entry.value.price,3,'COMMA')} +'円'">
-								</p>
-							</div>
-
+		<div id="right_box">
+			<div id="cart_box">
+				<h1>カート</h1>
+				<th:object th:if="!${#lists.isEmpty(cart.orderList)}">
+					<th:object th:each="orderList : ${cart.orderList}">
+						<th:object th:each="entry : ${itemList}">
+							<th:object th:if="${orderList.itemId}==${entry.value.itemId}">
+								<form action="#" th:action="@{/list}" th:object="${cartForm}"
+									method="post">
+									<input type="hidden" name="deleteId"
+										th:value="${entry.value.itemId}">
+									<div id="cart_item_box">
+										<p th:text="'商品名：' + ${entry.value.name}"></p>
+										<p th:text="'個数：' + ${orderList.num}"></p>
+										<p
+											th:text="'単価：' + ${#numbers.formatInteger(entry.value.price,3,'COMMA')} +'円'"></p>
+										<p
+											th:text="'小計：' + ${#numbers.formatInteger(orderList.num * entry.value.price,3,'COMMA')} +'円'">
+										</p>
+										<button type="submit" name="deleteItem">カートから除外</button>
+									</div>
+								</form>
+							</th:object>
 						</th:object>
 					</th:object>
+					<u><h2
+							th:text="'合計：' + ${#numbers.formatInteger(total,3,'COMMA')} +'円'"></h2></u>
 				</th:object>
-				<u><h2
-						th:text="'合計：' + ${#numbers.formatInteger(total,3,'COMMA')} +'円'"></h2></u>
-			</th:object>
+			</div>
 		</div>
 	</div>
 </body>

@@ -57,18 +57,13 @@ public class SessionService {
 
 
   /**
-   * 「削除」リンク押下時の処理
+   * セッション管理DBの削除を行う
    *
-   * パラメータで受け取ったアイテムIDのデータを削除する
-   *
-   * @param itemId
-   * @return
+   * @param id
    */
-  public void delete(int itemId) {
-    //todo:途中
+  public void delete(int id) {
     // パラメータで受けとったアイテムIDのデータを削除する
-    // SQL文字列中の「?」の部分に、後ろで指定した変数が埋め込まれる
-    jdbcTemplate.update("DELETE FROM items WHERE item_id = ?", itemId);
+    jdbcTemplate.update("DELETE FROM session_items WHERE item_id = ?", id);
   }
 
   /**

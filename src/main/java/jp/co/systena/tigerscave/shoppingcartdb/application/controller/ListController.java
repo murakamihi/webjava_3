@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import jp.co.systena.tigerscave.shoppingcartdb.application.model.Cart;
+import jp.co.systena.tigerscave.shoppingcartdb.application.model.CartForm;
 import jp.co.systena.tigerscave.shoppingcartdb.application.model.Item;
 import jp.co.systena.tigerscave.shoppingcartdb.application.model.ListForm;
 import jp.co.systena.tigerscave.shoppingcartdb.application.service.ListService;
@@ -41,6 +42,9 @@ public class ListController {
     // リストフォームを新規設定
     mav.addObject("listForm", new ListForm());
 
+    //カートフォームを新規設定
+    mav.addObject("cartForm",new CartForm());
+
     // 合計金額設定
     int total = cart.calculateTotal(itemListMap);
     mav.addObject("total", total);
@@ -68,6 +72,28 @@ public class ListController {
     }
 
     sessionService.sessionUpdate(listForm);
+
+    return new ModelAndView("redirect:/list"); // リダイレクト
+  }
+
+  @RequestMapping(value = "/list", params = "deleteItem", method = RequestMethod.POST) // URLとのマッピング
+  public ModelAndView delete(ModelAndView mav, @Valid CartForm cartForm, BindingResult bindingResult,
+      HttpServletRequest request) {
+
+    if (bindingResult.getAllErrors().size() > 0) {
+      // エラーがある場合はそのまま戻す
+      mav.addObject("listFrom", cartForm);
+
+      // 商品一覧設定
+      Map<Integer, Item> itemListMap = getItemListMap();
+      mav.addObject("itemList", itemListMap);
+
+      mav.setViewName("ListView");
+
+      return mav;
+    }
+
+    sessionService.delete(cartForm.getdeleteId());
 
     return new ModelAndView("redirect:/list"); // リダイレクト
   }
