@@ -1,0 +1,46 @@
+@charset "UTF-8";
+
+html {
+    height: 100%;
+}
+
+body {
+    height: 100%;
+    margin: 0;
+}
+
+#goods_box {
+	float: left;
+	padding: 10px;
+	margin-right: 10px;
+	margin-bottom: 10px;
+	border: 1px solid #333333;
+	width: 300px;
+}
+
+#left_box {
+	float: left;
+	width:70%;
+}
+
+#cart_box {
+	margin-left: 10px;
+}
+
+#border_box {
+	border-left:  solid #000000;
+}
+
+#cart_item_box {
+	padding: 10px;
+	margin-bottom: 10px;
+	border: 1px solid #333333;
+	width: 300px;
+}
+
+#right_box {
+	float: right;
+	width: 350px;
+	height: 100%;
+	border-left:  solid #000000;
+}
