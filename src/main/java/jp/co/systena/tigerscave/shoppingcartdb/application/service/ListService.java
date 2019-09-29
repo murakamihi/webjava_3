@@ -14,9 +14,9 @@ public class ListService {
   JdbcTemplate jdbcTemplate;
 
   /**
-   * データベースからアイテムデータ一覧を取得する
+   * 商品管理DBからアイテムデータ一覧を取得する
    *
-   * @return
+   * @return アイテムリスト
    */
   public List<Item> getItemList() {
 
@@ -25,25 +25,5 @@ public class ListService {
         new BeanPropertyRowMapper<Item>(Item.class));
 
     return list;
-  }
-
-
-  /**
-   * 「削除」リンク押下時の処理
-   *
-   * パラメータで受け取ったアイテムIDのデータを削除する
-   *
-   * @param itemId
-   * @return
-   */
-  public void delete(int itemId) {
-
-
-    // 本来はここで入力チェックなど
-
-
-    // パラメータで受けとったアイテムIDのデータを削除する
-    // SQL文字列中の「?」の部分に、後ろで指定した変数が埋め込まれる
-    jdbcTemplate.update("DELETE FROM items WHERE item_id = ?", itemId);
   }
 }

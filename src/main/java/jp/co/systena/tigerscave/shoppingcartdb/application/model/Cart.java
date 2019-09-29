@@ -7,14 +7,28 @@ import java.util.Map;
 public class Cart {
   public List<Order> orderList;
 
+  /**
+   * コンストラクタ
+   */
   public Cart() {
     orderList = new ArrayList<Order>();
   }
 
+  /**
+   * オーダーリストをカートに設定
+   *
+   * @param orderList
+   */
   public void setOrderList(List<Order> orderList) {
     this.orderList = orderList;
   }
 
+  /**
+   * カートリストの合計金額を返却
+   *
+   * @param itemListMap<Itemのid, Item>
+   * @return 合計金額
+   */
   public int calculateTotal(Map<Integer, Item> itemListMap) {
     // カートリストの合計金額
     int totalPrice = 0;

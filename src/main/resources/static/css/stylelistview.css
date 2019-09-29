@@ -4,6 +4,12 @@
 	display:flex;
 }
 
+#left_box {
+	margin-left: 10px;
+	float: left;
+	width: 70%;
+}
+
 #goods_box {
 	float: left;
 	padding: 10px;
@@ -13,19 +19,14 @@
 	width: 300px;
 }
 
-#left_box {
-	margin-left: 10px;
-	float: left;
-	width: 70%;
+#right_box {
+	float: right;
+	width: 350px;
+	border-left: solid #000000;
 }
 
 #cart_box {
 	margin-left: 10px;
-}
-
-#border_box {
-	display:table-cell;
-	border-left: solid #000000;
 }
 
 #cart_item_box {
@@ -33,10 +34,4 @@
 	margin-bottom: 10px;
 	border: 1px solid #333333;
 	width: 300px;
-}
-
-#right_box {
-	float: right;
-	width: 350px;
-	border-left: solid #000000;
 }

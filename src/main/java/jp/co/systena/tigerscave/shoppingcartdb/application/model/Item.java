@@ -5,36 +5,56 @@ public class Item {
   String name;
   int price;
 
-  public Item(){
-
-  }
-
-  public Item(int itemId, String name, int price) {
-    this.itemId = itemId;
-    this.name = name;
-    this.price = price;
-  }
-
+  /**
+   * itemIdのゲッター
+   *
+   * @return itemId
+   */
   public int getItemId() {
     return itemId;
   }
 
+  /**
+   * itemIdのセッター
+   *
+   * @param itemId
+   */
   public void setItemId(int itemId) {
     this.itemId = itemId;
   }
 
+  /**
+   * nameのゲッター
+   *
+   * @return name
+   */
   public String getName() {
     return name;
   }
 
+  /**
+   * nameのセッター
+   *
+   * @param name
+   */
   public void setName(String name) {
     this.name = name;
   }
 
+  /**
+   * priceのゲッター
+   *
+   * @return price
+   */
   public int getPrice() {
     return price;
   }
 
+  /**
+   * priceのセッター
+   *
+   * @param price
+   */
   public void setPrice(int price) {
     this.price = price;
   }

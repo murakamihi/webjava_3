@@ -27,7 +27,12 @@ public class ListController {
   @Autowired
   private  SessionService sessionService;
 
-
+  /**
+   * 表示処理に必要な処理を行う
+   *
+   * @param mav
+   * @return ModelAndView
+   */
   @RequestMapping(value = "/list", method = RequestMethod.GET) // URLとのマッピング
   public ModelAndView show(ModelAndView mav) {
     // 商品一覧設定
@@ -54,6 +59,15 @@ public class ListController {
     return mav;
   }
 
+  /**
+   * カートに追加ボタン押下時の処理を行う
+   *
+   * @param mav
+   * @param listForm
+   * @param bindingResult
+   * @param request
+   * @return ModelAndView
+   */
   @RequestMapping(value = "/list", method = RequestMethod.POST) // URLとのマッピング
   public ModelAndView order(ModelAndView mav, @Valid ListForm listForm, BindingResult bindingResult,
       HttpServletRequest request) {
@@ -76,6 +90,15 @@ public class ListController {
     return new ModelAndView("redirect:/list"); // リダイレクト
   }
 
+  /**
+   * カートから除外ボタン押下時の処理を行う
+   *
+   * @param mav
+   * @param cartForm
+   * @param bindingResult
+   * @param request
+   * @return ModelAndView
+   */
   @RequestMapping(value = "/list", params = "deleteItem", method = RequestMethod.POST) // URLとのマッピング
   public ModelAndView delete(ModelAndView mav, @Valid CartForm cartForm, BindingResult bindingResult,
       HttpServletRequest request) {
@@ -98,6 +121,11 @@ public class ListController {
     return new ModelAndView("redirect:/list"); // リダイレクト
   }
 
+  /**
+   * DBから商品リストを取得し、Mapに格納して返却する
+   *
+   * @return Map<Itemのid, Item>
+   */
   private Map<Integer, Item> getItemListMap() {
     List<Item> itemList = listService.getItemList();
 
