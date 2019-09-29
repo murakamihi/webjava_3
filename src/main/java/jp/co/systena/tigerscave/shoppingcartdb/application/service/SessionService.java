@@ -12,8 +12,8 @@ import jp.co.systena.tigerscave.shoppingcartdb.application.model.Order;
 @Service
 public class SessionService {
 
-@Autowired
-JdbcTemplate jdbcTemplate;
+  @Autowired
+  JdbcTemplate jdbcTemplate;
 
   /**
    * データベースからアイテムデータ一覧を取得する
@@ -22,10 +22,31 @@ JdbcTemplate jdbcTemplate;
    */
   public void setOrderList(Cart cart) {
 
-    //SELECTを使用してテーブルの情報をすべて取得する
-    List<Order> list = jdbcTemplate.query("SELECT * FROM session_items ORDER BY item_id", new BeanPropertyRowMapper<Order>(Order.class));
+    // SELECTを使用してテーブルの情報をすべて取得する
+    List<Order> list = jdbcTemplate.query("SELECT * FROM session_items ORDER BY item_id",
+        new BeanPropertyRowMapper<Order>(Order.class));
 
     cart.setOrderList(list);
+  }
+
+  public void sessionUpdate(ListForm listForm) {
+    int listId = listForm.getItemId();
+    int listNum = listForm.getNum();
+
+    // SELECTを使用して対象リストのテーブルの情報をすべて取得する
+    List<Order> list = jdbcTemplate.query("SELECT * FROM session_items WHERE item_id = ?",
+        new Object[] {listId}, new BeanPropertyRowMapper<Order>(Order.class));
+
+    if (!list.isEmpty()) {
+      for (Order order : list) {
+        // データベース更新
+        // プラスする
+        update(listId, listNum + order.getNum());
+      }
+    } else {
+      // 新規入力
+      insert(listForm);
+    }
   }
 
 
@@ -65,5 +86,22 @@ JdbcTemplate jdbcTemplate;
     jdbcTemplate.update("INSERT INTO session_items VALUES( ?, ? )", listform.getItemId(),
         listform.getNum());
 
+  }
+
+  /**
+   * 「更新」ボタン押下時の処理
+   *
+   * 入力された名前と価格をアイテムIDをキーとして更新する
+   *
+   * @param listForm
+   * @param result
+   * @param model
+   * @return
+   */
+  public void update(int id, int num) {
+    // 1行分の値でデータベースをUPDATEする
+    // item_idをキーに名称と価格を更新する
+    // SQL文字列中の「?」の部分に、後ろで指定した変数が埋め込まれる
+    jdbcTemplate.update("UPDATE session_items SET num = ? WHERE item_id = ?", num, id);
   }
 }

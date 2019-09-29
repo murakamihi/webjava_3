@@ -82,7 +82,7 @@ public class ListController {
 //
 //    cart.addOrder(listForm);
 //    session.setAttribute("cart", cart);
-    sessionService.insert(listForm);
+    sessionService.sessionUpdate(listForm);
 
     return new ModelAndView("redirect:/list"); // リダイレクト
   }
